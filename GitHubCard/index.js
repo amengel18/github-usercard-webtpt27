@@ -3,12 +3,16 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios'
 
-const { default: axios } = require("axios");
+
+
 
 axios.get("https://api.github.com/users/amengel18")
   .then(res => {
-    console.log(res.data)
+    const user = res.data
+    const userCard = cardMaker(user);
+    cardContainer.appendChild(userCard)
   })
   .catch(err => {
     console.log('error')
@@ -61,8 +65,11 @@ const followersArray = [];
     </div>
 */
 
-function gitHubCard(data) {
-  const card = document.createElement('div')
+const cardContainer = document.querySelector('.cards')
+
+
+function cardMaker(obj) {
+  const userCard = document.createElement('div')
   const cardImg = document.createElement('img')
   const cardInfo = document.createElement('div')
   const cardName = document.createElement('h3')
@@ -74,23 +81,23 @@ function gitHubCard(data) {
   const following = document.createElement('p')
   const bio = document.createElement('p')
 
-  card.classList.add('card')
+  userCard.classList.add('card')
   cardInfo.classList.add('card-info')
   cardName.classList.add('name')
   userName.classList.add('username')
 
-  cardName.textContent = data.name
-  userName.textContent = data.username 
-  location.textContent = `Location: ${location}`
-  bio.textContent = `Bio: ${data.bio}`
-  cardImg.setAttribute('src', data.avatar_url)
-  profileLink.textContent = data.html_url
-  profile.textContent = data.html_url
-  followers.textContent = `Followers: ${data.followers}`
-  following.textContent = `Following: ${data.following}`
+  cardName.textContent = obj.name
+  userName.textContent = obj.username 
+  location.textContent = `Location: ${obj.location}`
+  bio.textContent = `Bio: ${obj.bio}`
+  cardImg.setAttribute('src', obj.avatar_url)
+  profileLink.textContent = obj.html_url
+  profile.textContent = `Profile: `
+  followers.textContent = `Followers: ${obj.followers}`
+  following.textContent = `Following: ${obj.following}`
 
-  card.appendChild(cardImg)
-  card.appendChild(cardInfo)
+  userCard.appendChild(cardImg)
+  userCard.appendChild(cardInfo)
   cardInfo.appendChild(cardName)
   cardInfo.appendChild(userName)
   cardInfo.appendChild(location)
@@ -100,8 +107,10 @@ function gitHubCard(data) {
   cardInfo.appendChild(following)
   cardInfo.appendChild(bio)
 
-  return card
+  console.log(userCard)
+  return userCard
 }
+
 
 
 
